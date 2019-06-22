@@ -4,12 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Sistema.Web.Models.Usuarios.User
+namespace Sistema.Web.Models.Usuarios.Usuario
 {
-    public class ActualizarViewModel
+    public class CrearViewModel
     {
-        [Required]
-        public int idusuario { get; set; }
         [Required]
         public int idrol { get; set; }
         [Required]
@@ -24,6 +22,5 @@ namespace Sistema.Web.Models.Usuarios.User
         public string email { get; set; }
         [Required]
         public string password { get; set; }
-        public bool act_password { get; set; }
     }
 }
