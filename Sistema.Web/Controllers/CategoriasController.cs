@@ -133,7 +133,7 @@ namespace Sistema.Web.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
             }
 
             return Ok();
@@ -161,7 +161,7 @@ namespace Sistema.Web.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex);
             }
 
             return Ok(categoria);
