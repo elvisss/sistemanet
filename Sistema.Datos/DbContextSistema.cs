@@ -3,6 +3,7 @@ using Sistema.Datos.Mapping.Almacen;
 using Sistema.Datos.Mapping.Usuarios;
 using Sistema.Entidades.Almacen;
 using Sistema.Entidades.Usuarios;
+using Sistema.Entidades.Ventas;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,7 @@ namespace Sistema.Datos
         public DbSet<Articulo> Articulos { get; set; }
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Persona> Personas { get; set; }
 
         public DbContextSistema(DbContextOptions<DbContextSistema> options) : base(options)
         {
@@ -28,6 +30,7 @@ namespace Sistema.Datos
             modeBuilder.ApplyConfiguration(new ArticuloMap());
             modeBuilder.ApplyConfiguration(new RolMap());
             modeBuilder.ApplyConfiguration(new UsuarioMap());
+            modeBuilder.ApplyConfiguration(new PersonaMap());
         }
     }
 }
