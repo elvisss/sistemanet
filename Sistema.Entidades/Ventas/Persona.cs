@@ -20,5 +20,6 @@ namespace Sistema.Entidades.Ventas
         public string telefono { get; set; }
         public string email { get; set; }
         public ICollection<Ingreso> ingresos { get; set; }
+        public ICollection<Venta> ventas { get; set; }
     }
 }

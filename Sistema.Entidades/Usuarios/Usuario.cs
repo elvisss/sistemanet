@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using Sistema.Entidades.Almacen;
+using Sistema.Entidades.Ventas;
 
 namespace Sistema.Entidades.Usuarios
 {
@@ -27,5 +28,6 @@ namespace Sistema.Entidades.Usuarios
         public bool condicion { get; set; }
         public Rol rol { get; set; }
         public ICollection<Ingreso> ingresos { get; set; }
+        public ICollection<Venta> ventas { get; set; }
     }
 }

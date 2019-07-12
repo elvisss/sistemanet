@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sistema.Datos.Mapping.Almacen;
 using Sistema.Datos.Mapping.Usuarios;
+using Sistema.Datos.Mapping.Ventas;
 using Sistema.Entidades.Almacen;
 using Sistema.Entidades.Usuarios;
 using Sistema.Entidades.Ventas;
@@ -19,7 +20,8 @@ namespace Sistema.Datos
         public DbSet<Persona> Personas { get; set; }
         public DbSet<Ingreso> Ingresos { get; set; }
         public DbSet<DetalleIngreso> DetallesIngresos { get; set; }
-
+        public DbSet<Venta> Ventas { get; set; }
+        public DbSet<DetalleVenta> DetallesVentas { get; set; }
         public DbContextSistema(DbContextOptions<DbContextSistema> options) : base(options)
         {
 
@@ -35,6 +37,8 @@ namespace Sistema.Datos
             modeBuilder.ApplyConfiguration(new PersonaMap());
             modeBuilder.ApplyConfiguration(new IngresoMap());
             modeBuilder.ApplyConfiguration(new DetalleIngresoMap());
+            modeBuilder.ApplyConfiguration(new VentaMap());
+            modeBuilder.ApplyConfiguration(new DetalleVentaMap());
         }
     }
 }
