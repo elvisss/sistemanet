@@ -56,7 +56,26 @@ namespace Sistema.Web.Controllers
             });
         }
 
-        // GET: api/Ventas/ListarFiltro
+        // GET: api/Ventas/VentasMes12
+        [Authorize(Roles = "Almacenero, Vendedor, Administrador")]
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<ConsultaViewModel>> VentasMes12()
+        {
+            var consulta = await _context.Ventas
+                .GroupBy(v => v.fecha_hora.Month)
+                .Select(x => new { etiqueta = x.Key, valor = x.Sum(v => v.total) })
+                .OrderByDescending(x => x.etiqueta)
+                .Take(12)
+                .ToListAsync();
+
+            return consulta.Select(i => new ConsultaViewModel
+            {
+                etiqueta = i.etiqueta.ToString(),
+                valor = i.valor
+            });
+        }
+
+        // GET: api/Ventas/ListarFiltro/texto
         [Authorize(Roles = "Vendedor, Administrador")]
         [HttpGet("[action]/{texto}")]
         public async Task<IEnumerable<VentaViewModel>> ListarFiltro([FromRoute] string texto)
@@ -66,6 +85,41 @@ namespace Sistema.Web.Controllers
                 .Include(i => i.persona)
                 .Where(i => i.num_comprobante.Contains(texto))
                 .OrderByDescending(i => i.idventa)
+                .ToListAsync();
+
+            return venta.Select(i => new VentaViewModel
+            {
+                idventa = i.idventa,
+                idcliente = i.idcliente,
+                cliente = i.persona.nombre,
+                num_documento = i.persona.num_documento,
+                direccion = i.persona.direccion,
+                telefono = i.persona.telefono,
+                email = i.persona.email,
+                idusuario = i.idusuario,
+                usuario = i.usuario.nombre,
+                tipo_comprobante = i.tipo_comprobante,
+                serie_comprobante = i.serie_comprobante,
+                num_comprobante = i.num_comprobante,
+                fecha_hora = i.fecha_hora,
+                impuesto = i.impuesto,
+                total = i.total,
+                estado = i.estado
+            });
+        }
+
+        // GET: api/Ventas/ConsultarFechas/FechaInicio/FechaFin
+        [Authorize(Roles = "Vendedor, Administrador")]
+        [HttpGet("[action]/{FechaInicio}/{FechaFin}")]
+        public async Task<IEnumerable<VentaViewModel>> ConsultarFechas([FromRoute] DateTime FechaInicio, [FromRoute] DateTime FechaFin)
+        {
+            var venta = await _context.Ventas
+                .Include(i => i.usuario)
+                .Include(i => i.persona)
+                .Where(i => i.fecha_hora >= FechaInicio)
+                .Where(i => i.fecha_hora <= FechaFin)
+                .OrderByDescending(i => i.idventa)
+                .Take(100)
                 .ToListAsync();
 
             return venta.Select(i => new VentaViewModel
