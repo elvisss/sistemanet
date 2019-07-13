@@ -54,6 +54,8 @@ namespace Sistema.Web
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                     };
                 });
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,8 +73,17 @@ namespace Sistema.Web
 
             app.UseCors("Todos");
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseDeveloperExceptionPage();
+            app.UseMvc(routes => {
+                routes.MapRoute(name: "default",
+                    template: "{controllerName}/{action=Index}/{id?}");
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Home", action = "Index" }
+                );
+            });
         }
     }
 }
